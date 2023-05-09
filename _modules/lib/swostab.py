@@ -6,13 +6,6 @@ from lib import utils
 
 
 class Swostab:
-    port_count = 0
-    _data = None
-    _data_changed = False
-
-    _url = ""
-    _auth = None
-
     def _get(self, page):
         return requests.get(self._url + page, auth=self._auth)
 
@@ -46,7 +39,7 @@ class Swostab:
         raise Exception("not implemented")
 
     def _save(self, page):
-        if not self._data_changed:
-            return False
+        if self._data_changed:
+            return self._post(page, utils.json_to_mikrotik(self._data)).ok
 
-        return self._post(page, utils.json_to_mikrotik(self._data)).ok
+        return False

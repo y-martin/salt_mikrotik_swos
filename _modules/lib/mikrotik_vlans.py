@@ -26,24 +26,27 @@ class Mikrotik_Vlans(Swostab):
             vlan_config = {"vid": utils.hex_str_with_pad(vlan_id, pad=4)}
             self._data.append(vlan_config)
 
-        vlan_config['nm'] = utils.encode_string(kwargs.get("name"))
-        vlan_config['piso'] = utils.encode_checkbox(kwargs.get("port_isolation", None))
-        vlan_config['lrn'] = utils.encode_checkbox(kwargs.get("learning", None))
-        vlan_config['mrr'] = utils.encode_checkbox(kwargs.get("mirror", None))
-        vlan_config['igmp'] = utils.encode_checkbox(kwargs.get("igmp_snooping", None))
-        vlan_config['mbr'] = utils.encode_listofflags(kwargs.get("members", None), 8)
-        self._data_changed = True
+        _vlan_config['nm'] = utils.encode_string(kwargs.get("name"))
+        _vlan_config['piso'] = utils.encode_checkbox(kwargs.get("port_isolation", None))
+        _vlan_config['lrn'] = utils.encode_checkbox(kwargs.get("learning", None))
+        _vlan_config['mrr'] = utils.encode_checkbox(kwargs.get("mirror", None))
+        _vlan_config['igmp'] = utils.encode_checkbox(kwargs.get("igmp_snooping", None))
+        _vlan_config['mbr'] = utils.encode_listofflags(kwargs.get("members", None), 8)
+        self._update_data(self._data.index(vlan_config), _vlan_config)
 
-        return self._save(PAGE)
+        return True
 
     def remove(self, vlan_id):
         for i in self._data:
             if int(i['vid'], 16) == vlan_id:
                 self._data.remove(i)
                 self._data_changed = True
+                return True
 
+        return False
+
+    def save(self):
         return self._save(PAGE)
-
 
     def show(self):
         print("vlan tab")
@@ -54,4 +57,3 @@ class Mikrotik_Vlans(Swostab):
                 utils.decode_listofflags(i["mbr"], self.port_count)
             ))
         print("")
-        print(self._data)

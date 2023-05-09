@@ -6,12 +6,15 @@ switch:
     enabled: true / false
     autonegociation: true / false
     duplex: true / false
-    speed: 10M / 100M / 1G
     rx_flow_control: true / false
     tx_flow_control: true / false
+
     ports_whitelist: [1, 2, ...]
+
     rstp: true / false
+
     lacp_mode: static
+
     vlan_mode:
     vlan_ids: []
     default_vlan_id:

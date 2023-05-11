@@ -53,21 +53,15 @@ class Mikrotik_Forwarding(Swostab):
 
         if mode:
             _mode = utils.hex_str_with_pad(hex(VLAN_MODE[mode]), 2)
-            if self._data["vlan"][port_id-1] != _mode:
-                self._data["vlan"][port_id-1] = _mode
-                self._data_changed = True
+            self._update_data("vlan", _mode, port_id-1)
 
         if receive_mode:
             _mode = utils.hex_str_with_pad(hex(VLAN_RECEIVE_MODE[receive_mode]), 2)
-            if self._data["vlni"][port_id-1] != _mode:
-                self._data["vlni"][port_id-1] = _mode
-                self._data_changed = True
+            self._update_data("vlni", _mode, port_id-1)
 
         if default_vlan_id:
             _dvid_val = utils.hex_str_with_pad(hex(default_vlan_id), 4)
-            if self._data["dvid"][port_id-1] != _dvid_val:
-                self._data["dvid"][port_id-1] = _dvid_val
-                self._data_changed = True
+            self._update_data("dvid", _dvid_val, port_id-1)
 
         if force_vlan_id:
             _fvid = utils.decode_listofflags(self._data["fvid"], self.port_count)
@@ -76,10 +70,7 @@ class Mikrotik_Forwarding(Swostab):
             else:
                 _fvid[port_id-1] = 0
 
-            _fvid = utils.encode_listofflags(fvid, 8)
-            if _fvid != self._data["fvid"]:
-                self._data["fvid"] = _fvid
-                self._data_changed = True
+            self._update_data("fvid", utils.encode_listofflags(fvid, 8))
 
         return True
 

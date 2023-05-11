@@ -26,14 +26,14 @@ class Mikrotik_Port(Swostab):
             self.parsed_data["speed"] = self._data["spdc"][i]
 
     def save(self):
-        self._data["en"]   = utils.encode_listofflags(self.parsed_data["enabled"], 8)
-        self._data["dpxc"]  = utils.encode_listofflags(self.parsed_data["duplex"], 8)
-        self._data["fctc"] = utils.encode_listofflags(self.parsed_data["ctrl_tx"], 8)
-        self._data["fctr"] = utils.encode_listofflags(self.parsed_data["ctrl_rx"], 8)
-        self._data["an"]   = utils.encode_listofflags(self.parsed_data["autoneg"], 8)
+        self._update_data("en", utils.encode_listofflags(self.parsed_data["enabled"], 8))
+        self._update_data("dpxc", utils.encode_listofflags(self.parsed_data["duplex"], 8))
+        self._update_data("fctc", utils.encode_listofflags(self.parsed_data["ctrl_tx"], 8))
+        self._update_data("fctr", utils.encode_listofflags(self.parsed_data["ctrl_rx"], 8))
+        self._update_data("an", utils.encode_listofflags(self.parsed_data["autoneg"], 8))
         for i in range(0, self.port_count):
-            self._data["name"][i] = utils.encode_string(self.parsed_data["nm"][i])
-            self._data["spd"][i]  = self.parsed_data["speed"]
+            self._update_data("name", utils.encode_string(self.parsed_data["nm"][i]), i)
+            self._update_data("spd", self.parsed_data["speed"], i)
 
         return self._save(PAGE)
 

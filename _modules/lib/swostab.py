@@ -11,8 +11,13 @@ class Swostab:
 
     def _post(self, page, data):
         return requests.post(self._url + page, auth=self._auth, data=data)
-    def _update_data(self, field, value = None):
+    def _update_data(self, field, value = None, field_index = None):
         if value is None:
+            return
+
+        if field_index and value != self._data[field][field_index]:
+            self._data[field][field_index] = value
+            self._data_changed = True
             return
 
         if value != self._data[field]:

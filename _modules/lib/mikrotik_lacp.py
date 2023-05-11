@@ -29,10 +29,7 @@ class Mikrotik_Lacp(Swostab):
             return False
 
         _mode = utils.hex_str_with_pad(hex(LAG_MODE[mode]), 2)
-        if self._data["mode"][port_id-1] != _mode:
-            self._data["mode"][port_id-1] = _mode
-            self._data_changed = True
-
+        self._update_data("mode", _mode, port_id-1)
         return True
 
     def save(self):

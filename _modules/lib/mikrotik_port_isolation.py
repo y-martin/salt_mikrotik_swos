@@ -70,7 +70,7 @@ class Mikrotik_Forwarding(Swostab):
             else:
                 _fvid[port_id-1] = 0
 
-            self._update_data("fvid", utils.encode_listofflags(fvid, 8))
+            self._update_data("fvid", utils.encode_listofflags(_fvid, 8))
 
         return True
 

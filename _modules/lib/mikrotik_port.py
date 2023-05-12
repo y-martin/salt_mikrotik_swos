@@ -27,7 +27,7 @@ class Mikrotik_Port(Swostab):
 
     def configure(self, port_id, **kwargs):
         self.parsed_data["name"][port_id-1] = kwargs.get("name", None)
-        self.parsed_data["enabled"][port_id-1] = kwargs.get("enabled", True)
+        self.parsed_data["enabled"][port_id-1] = kwargs.get("enabled", 1)
         self.parsed_data["autoneg"][port_id-1] = kwargs.get("autoneg", None)
         self.parsed_data["duplex"][port_id-1] = kwargs.get("duplex", None)
         self.parsed_data["ctrl_tx"][port_id-1] = kwargs.get("ctrl_tx", None)

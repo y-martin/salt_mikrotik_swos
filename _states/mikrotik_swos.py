@@ -53,8 +53,8 @@ def ports_config(
     **kwargs
 ):
     return __salt__["mikrotik_swos.ports_config"](
-        switch_address='192.168.88.1',
-        switch_login='admin',
-        switch_password='',
+        switch_address=switch_address,
+        switch_login=switch_login,
+        switch_password=switch_password,
         **kwargs
     )

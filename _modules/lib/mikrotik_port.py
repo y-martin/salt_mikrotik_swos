@@ -11,10 +11,9 @@ PAGE = "/link.b"
 
 
 class Mikrotik_Port(Swostab):
-    self.parsed_data = {}
-
     def _load_tab_data(self):
         self._data = utils.mikrotik_to_json(self._get(PAGE).text)
+        self.parsed_data = {}
 
         self.parsed_data["enabled"] = utils.decode_listofflags(self._data["en"], self.port_count)
         self.parsed_data["duplex"]  = utils.decode_listofflags(self._data["dpxc"], self.port_count)
@@ -53,5 +52,5 @@ class Mikrotik_Port(Swostab):
                 self.parsed_data["duplex"][i],
                 self.parsed_data["ctrl_tx"][i],
                 self.parsed_data["ctrl_rx"][i],
-            )
+            ))
         print("")

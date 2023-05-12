@@ -151,31 +151,41 @@ def ports_config(
         ret["comment"] = "Fail to connect to %s" % (switch_address)
         return ret;
 
-    for p in ports_configuration:
-        swos_port.configure(
-            port_id=p,
-            enabled=True,
-            **ports_configuration[p]
-        )
+    swos_vlan.reset_member_cfg()
+    for p in range(1, swos_port.port_count+1):
+        if port in ports_configuration:
+            # configure switch port id=p
+            swos_port.configure(
+                port_id=p,
+                enabled=True,
+                **ports_configuration[p]
+            )
 
-        swos_port_iso.port_isolation(
-            port_id=p,
-            port_list=ports_configuration[p].get("xfer_allow_ports", None)
-        )
+            swos_port_iso.port_isolation(
+                port_id=p,
+                port_list=ports_configuration[p].get("xfer_allow_ports", None)
+            )
 
-        swos_port_iso.port_vlan_config(
-            port_id=p,
-            mode=ports_configuration[p].get("vlan_mode", None),
-            receive_mode=ports_configuration[p].get("vlan_receive_mode", None),
-            default_vlan_id=ports_configuration[p].get("vlan_default_id", None),
-            force_vlan_id=ports_configuration[p].get("vlan_force_id", None)
-        )
+            swos_port_iso.port_vlan_config(
+                port_id=p,
+                mode=ports_configuration[p].get("vlan_mode", None),
+                receive_mode=ports_configuration[p].get("vlan_receive_mode", None),
+                default_vlan_id=ports_configuration[p].get("vlan_default_id", None),
+                force_vlan_id=ports_configuration[p].get("vlan_force_id", None)
+            )
 
-        vlans = ports_configuration[p].get("vlan_ids", [])
-        if "vlan_default_id" in ports_configuration[p]:
-            vlans += [ports_configuration[p]["vlan_default_id"]]
-        for vlan in vlans:
-            swos_vlan.add_port(port_id=p, vlan_id=vlan)
+            vlans = ports_configuration[p].get("vlan_ids", [])
+            if "vlan_default_id" in ports_configuration[p]:
+                vlans += [ports_configuration[p]["vlan_default_id"]]
+            for vlan in vlans:
+                swos_vlan.add_port(port_id=p, vlan_id=vlan)
+        else:
+            # disable switch port id=p
+            swos_port.configure(
+                port_id=p,
+                name="Port%d" % (p),
+                enabled=False
+            )
 
     res_lacp = swos_lacp.save()
     res_port = swos_port.save()

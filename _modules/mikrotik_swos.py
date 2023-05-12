@@ -152,7 +152,7 @@ def ports_config(
         return ret;
 
     for p in ports_configuration:
-        swos_port.configure(port_id=p, **ports_configuration)
+        swos_port.configure(port_id=p, kwargs=ports_configuration)
 
         swos_port_iso.port_isolation(port_id=p, port_list=ports_configuration[p].get("xfer_allow_ports", None))
 

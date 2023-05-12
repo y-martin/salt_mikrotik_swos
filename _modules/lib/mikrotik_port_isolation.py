@@ -52,11 +52,11 @@ class Mikrotik_Forwarding(Swostab):
             return False
 
         if mode:
-            _mode = utils.hex_str_with_pad(hex(VLAN_MODE[mode]), 2)
+            _mode = VLAN_MODE[mode]
             self._update_data("vlan", _mode, port_id-1)
 
         if receive_mode:
-            _mode = utils.hex_str_with_pad(hex(VLAN_RECEIVE_MODE[receive_mode]), 2)
+            _mode = VLAN_RECEIVE_MODE[receive_mode]
             self._update_data("vlni", _mode, port_id-1)
 
         if default_vlan_id:
@@ -80,7 +80,6 @@ class Mikrotik_Forwarding(Swostab):
     def show(self):
         vlan_mode_str = {v: k for k, v in VLAN_MODE.items()}
         vlan_receive_mode_str = {v: k for k, v in VLAN_RECEIVE_MODE.items()}
-
 
         print("port isolation tab")
 

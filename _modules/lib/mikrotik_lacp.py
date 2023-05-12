@@ -28,7 +28,7 @@ class Mikrotik_Lacp(Swostab):
         if port_id < 1 or port_id > self.port_count:
             return False
 
-        _mode = utils.hex_str_with_pad(hex(LAG_MODE[mode]), 2)
+        _mode = LAG_MODE[mode]
         self._update_data("mode", _mode, port_id-1)
         return True
 

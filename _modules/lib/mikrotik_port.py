@@ -23,7 +23,7 @@ class Mikrotik_Port(Swostab):
         self.parsed_data["ctrl_rx"] = utils.decode_listofflags(self._data["fctr"], self.port_count)
         self.parsed_data["autoneg"] = utils.decode_listofflags(self._data["an"], self.port_count)
         for i in range(0, self.port_count):
-            self.parsed_data["name"][i]  = utils.decode_string(self._data["nm"][i])
+            self.parsed_data["name"].append(utils.decode_string(self._data["nm"][i]))
 
     def configure(self, port_id, **kwargs):
         self.parsed_data["name"][port_id-1] = kwargs.get("name", None)

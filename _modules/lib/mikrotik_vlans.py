@@ -32,12 +32,13 @@ class Mikrotik_Vlans(Swostab):
             }
             self._data.append(_vlan_config)
 
-        self._update_data(_vlan_config, utils.encode_string(kwargs.get("name", None)), 'nm')
-        self._update_data(_vlan_config, utils.encode_checkbox(kwargs.get("port_isolation", None)), 'piso')
-        self._update_data(_vlan_config, utils.encode_checkbox(kwargs.get("learning", None)), 'lrn')
-        self._update_data(_vlan_config, utils.encode_checkbox(kwargs.get("mirror", None)), 'mrr')
-        self._update_data(_vlan_config, utils.encode_checkbox(kwargs.get("igmp_snooping", None)), 'igmp')
-        self._update_data(_vlan_config, utils.encode_listofflags(kwargs.get("members", None), 8), 'mbr')
+        vlan_cfg = self._data.index(_vlan_config)
+        self._update_data(vlan_cfg, utils.encode_string(kwargs.get("name", None)), 'nm')
+        self._update_data(vlan_cfg, utils.encode_checkbox(kwargs.get("port_isolation", None)), 'piso')
+        self._update_data(vlan_cfg, utils.encode_checkbox(kwargs.get("learning", None)), 'lrn')
+        self._update_data(vlan_cfg, utils.encode_checkbox(kwargs.get("mirror", None)), 'mrr')
+        self._update_data(vlan_cfg, utils.encode_checkbox(kwargs.get("igmp_snooping", None)), 'igmp')
+        self._update_data(vlan_cfg, utils.encode_listofflags(kwargs.get("members", None), 8), 'mbr')
 
     def remove(self, vlan_id):
         for i in self._data:

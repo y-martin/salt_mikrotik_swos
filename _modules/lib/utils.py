@@ -25,6 +25,8 @@ def decode_string(s):
 
 # SFP1 -> 53465031
 def encode_string(s):
+    if not s:
+        s = ""
     return s.encode("ascii").hex()
 
 # 0x1c20005 -> [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0]

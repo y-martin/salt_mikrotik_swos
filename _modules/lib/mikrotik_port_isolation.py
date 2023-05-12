@@ -60,7 +60,7 @@ class Mikrotik_Forwarding(Swostab):
             self._update_data("vlni", _mode, port_id-1)
 
         if default_vlan_id is not None:
-            _dvid_val = utils.hex_str_with_pad(hex(int(default_vlan_id)), 4)
+            _dvid_val = utils.hex_str_with_pad(default_vlan_id, 4)
             self._update_data("dvid", _dvid_val, port_id-1)
 
         if force_vlan_id is not None:

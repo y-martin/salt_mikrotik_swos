@@ -110,7 +110,7 @@ def vlan_add(
         return ret;
 
     swos.add(
-        vlan_id=vlan_id,
+        vlan_id=int(vlan_id),
         name=vlan_name,
         port_isolation=port_isolation,
         learning=learning,

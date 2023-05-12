@@ -16,14 +16,14 @@ class Mikrotik_Vlans(Swostab):
 
     def get(self, vlan_id):
         for i in self._data:
-            if int(i['vid'], 16) == vlan_id:
+            if int(i['vid'], 16) == int(vlan_id):
                 return i
         return None
 
     def add(self, vlan_id, **kwargs):
-        vlan_config = self.get(vlan_id)
+        vlan_config = self.get(int(vlan_id))
         if vlan_config is None:
-            vlan_config = {"vid": utils.hex_str_with_pad(vlan_id, pad=4)}
+            vlan_config = {"vid": utils.hex_str_with_pad(int(vlan_id), pad=4)}
             self._data.append(vlan_config)
 
         _vlan_config['nm'] = utils.encode_string(kwargs.get("name"))
@@ -38,7 +38,7 @@ class Mikrotik_Vlans(Swostab):
 
     def remove(self, vlan_id):
         for i in self._data:
-            if int(i['vid'], 16) == vlan_id:
+            if int(i['vid'], 16) == int(vlan_id):
                 self._data.remove(i)
                 self._data_changed = True
                 return True

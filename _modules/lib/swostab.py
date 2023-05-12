@@ -26,9 +26,9 @@ class Swostab:
 
     def __init__(self, url, login, password):
         if 'http://' not in url:
-            self.url = "http://%s" % url
+            self._url = "http://%s" % url
         else:
-            self.url  = url
+            self._url  = url
         self._auth = requests.auth.HTTPDigestAuth(login, password)
 
         resp = self._get("/link.b")

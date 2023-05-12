@@ -39,7 +39,7 @@ class Mikrotik_Forwarding(Swostab):
             return False
 
         if isinstance(port_list, str) and port_list == 'any':
-            acls = [1] * self.port_count
+            acl = [1] * self.port_count
         else:
             acl = [0] * self.port_count
             for p in port_list:

@@ -47,16 +47,14 @@ def vlan_add(
 
 
 def ports_config(
-    name,
     switch_address='192.168.88.1',
     switch_login='admin',
     switch_password='',
     **kwargs
 ):
     return __salt__["mikrotik_swos.ports_config"](
-        name,
         switch_address='192.168.88.1',
         switch_login='admin',
         switch_password='',
-        ports_configuration
+        **kwargs
     )

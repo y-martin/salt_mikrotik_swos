@@ -15,9 +15,10 @@ class Swostab:
         if value is None:
             return
 
-        if field_index and value != self._data[field][field_index]:
-            self._data[field][field_index] = value
-            self._data_changed = True
+        if field_index is not None:
+            if value != self._data[field][field_index]:
+                self._data[field][field_index] = value
+                self._data_changed = True
             return
 
         if value != self._data[field]:

@@ -28,6 +28,8 @@ class Mikrotik_Vlans(Swostab):
                 "nm": "",
                 "piso": True,
                 "lrn": True,
+                "mrr": False,
+                "igmp": False,
                 "mbr": utils.encode_listofflags([1] * self.port_count, 8)
             }
             self._data.append(_vlan_config)

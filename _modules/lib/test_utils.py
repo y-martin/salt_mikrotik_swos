@@ -106,6 +106,7 @@ def test_encode_checkbox():
 
 # test_ports_to_flag_list
 def test_ports_to_flag_list():
+    assert(utils.ports_to_flag_list(None) == None)
     assert(utils.ports_to_flag_list([]) == [])
     assert(utils.ports_to_flag_list([], 2) == [0, 0])
     assert(utils.ports_to_flag_list([4]) == [0, 0, 0, 1])

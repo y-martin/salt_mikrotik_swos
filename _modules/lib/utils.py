@@ -88,9 +88,12 @@ def decode_ipv4(s):
 
     return socket.inet_ntoa(struct.pack("<L", int(s, 16)))
 
-# true => 0x01 / false => 0x00
+# true => 0x01 / false => 0x00 / None => None
 def encode_checkbox(s):
-    return "0x01" if s == True else "0x00"
+    if s is None:
+        return None
+
+    return "0x01" if s else "0x00"
 
 # 0x01 => true
 def decode_checkbox(s):

@@ -37,7 +37,7 @@ class Mikrotik_Vlans(Swostab):
         _vlan_config['mrr'] = utils.encode_checkbox(kwargs.get("mirror", None))
         _vlan_config['igmp'] = utils.encode_checkbox(kwargs.get("igmp_snooping", None))
         _vlan_config['mbr'] = utils.encode_listofflags(kwargs.get("members", None), 8)
-        self._update_data(self._data.index(vlan_config), _vlan_config)
+        self._update_data(self._data.index(_vlan_config), _vlan_config)
 
         return True
 

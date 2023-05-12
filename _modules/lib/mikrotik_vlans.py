@@ -22,7 +22,7 @@ class Mikrotik_Vlans(Swostab):
 
     def add(self, vlan_id, **kwargs):
         _vlan_config = self.get(int(vlan_id))
-        if vlan_config is None:
+        if _vlan_config is None:
             _vlan_config = {
                 "vid": utils.hex_str_with_pad(int(vlan_id), pad=4),
                 "nm": "",

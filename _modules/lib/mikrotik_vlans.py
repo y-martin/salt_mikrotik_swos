@@ -63,8 +63,10 @@ class Mikrotik_Vlans(Swostab):
             }
             self._parsed_data[vlan_id] = _vlan_config
 
-        for k in _vlan_config:
-            _vlan_config[k] = kwargs.get(k, None)
+        _vlan_config["piso"] = kwargs.get("port_isolation", None)
+        _vlan_config["lrn"] = kwargs.get("learning", None)
+        _vlan_config["mrr"] = kwargs.get("mirror", None)
+        _vlan_config["igmp"] = kwargs.get("igmp_snooping", None)
 
 
     def remove(self, vlan_id):

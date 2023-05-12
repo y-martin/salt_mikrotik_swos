@@ -101,7 +101,7 @@ def vlan_add(
 ):
     from lib.mikrotik_vlans import Mikrotik_Vlans
 
-    ret = {"name": name, "result": False, "changes": {}, "comment": ""}
+    ret = {"name": vlan_id, "result": False, "changes": {}, "comment": ""}
 
     try:
         swos_vlan = Mikrotik_Vlans(name, switch_login, switch_password)

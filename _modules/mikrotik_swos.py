@@ -88,6 +88,7 @@ def snmp_config(
 
 
 def vlan_add(
+    name,
     vlan_id,
     switch_address='192.168.88.1',
     switch_login='admin',
@@ -101,7 +102,7 @@ def vlan_add(
 ):
     from lib.mikrotik_vlans import Mikrotik_Vlans
 
-    ret = {"name": vlan_id, "result": False, "changes": {}, "comment": ""}
+    ret = {"name": name, "result": False, "changes": {}, "comment": ""}
 
     try:
         swos_vlan = Mikrotik_Vlans(switch_address, switch_login, switch_password)

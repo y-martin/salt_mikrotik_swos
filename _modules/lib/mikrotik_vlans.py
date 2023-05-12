@@ -12,6 +12,8 @@ PAGE = "/vlan.b"
 
 class Mikrotik_Vlans(Swostab):
     def _load_tab_data(self):
+        self._parsed_data = {}
+
         self._data = utils.mikrotik_to_json(self._get(PAGE).text)
         for i in self._data:
             self._parsed_data[int(i['vid'], 16)] = {

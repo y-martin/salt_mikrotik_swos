@@ -88,8 +88,8 @@ def snmp_config(
 
 
 def vlan_add(
-    vlan_id,
-    name='192.168.88.1',
+    name,
+    switch_address='192.168.88.1',
     switch_login='admin',
     switch_password='',
     vlan_name=None,
@@ -101,16 +101,16 @@ def vlan_add(
 ):
     from lib.mikrotik_vlans import Mikrotik_Vlans
 
-    ret = {"name": vlan_id, "result": False, "changes": {}, "comment": ""}
+    ret = {"name": name, "result": False, "changes": {}, "comment": ""}
 
     try:
-        swos_vlan = Mikrotik_Vlans(name, switch_login, switch_password)
+        swos_vlan = Mikrotik_Vlans(switch_address, switch_login, switch_password)
     except AssertionError:
         ret["comment"] = "Fail to connect to %s" % (name)
         return ret;
 
     swos_vlan.add(
-        vlan_id=int(vlan_id),
+        vlan_id=int(name),
         name=vlan_name,
         port_isolation=port_isolation,
         learning=learning,

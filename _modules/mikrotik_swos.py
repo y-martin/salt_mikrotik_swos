@@ -153,7 +153,7 @@ def ports_config(
 
     swos_vlan.reset_member_cfg()
     for p in range(1, swos_port.port_count+1):
-        if port in ports_configuration:
+        if p in ports_configuration:
             # configure switch port id=p
             swos_port.configure(
                 port_id=p,

@@ -154,7 +154,7 @@ def ports_config(
     for p in ports_configuration:
         swos_port.configure(port_id=p, **ports_configuration)
 
-        swos_port_iso.port_isolation(port_id=p, port_list=ports_configuration[p]["xfer_allow_ports"])
+        swos_port_iso.port_isolation(port_id=p, port_list=ports_configuration[p].get("xfer_allow_ports", None))
 
         swos_port_iso.port_vlan_config(
             port_id=p,

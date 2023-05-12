@@ -16,8 +16,10 @@ class Mikrotik_System(Swostab):
 
     # todo: iptp,
     def set(self, **kwargs):
-        self._update_data("ip", utils.encode_checkbox(kwargs.get("address", None)))
-        if kwargs.get("allow_from_vlan", None) is not None:
+        if kwargs.get("address", None):
+            self._update_data("ip", utils.encode_ipv4(kwargs.get("address", None)))
+            self._update_data("iptp", utils.encode_checkbox(True))
+        if kwargs.get("allow_from_vlan", None):
             self._update_data("avln", hex(kwargs.get("allow_from_vlan")))
         self._update_data("allp", utils.encode_listofflags(kwargs.get("allow_from_ports", None)))
         self._update_data("wdt", utils.encode_checkbox(kwargs.get("watchdog", None)))

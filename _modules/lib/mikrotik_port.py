@@ -33,7 +33,6 @@ class Mikrotik_Port(Swostab):
         self._update_data("an", utils.encode_listofflags(self.parsed_data["autoneg"], 8))
         for i in range(0, self.port_count):
             self._update_data("name", utils.encode_string(self.parsed_data["nm"][i]), i)
-            self._update_data("spd", self.parsed_data["speed"], i)
 
         return self._save(PAGE)
 

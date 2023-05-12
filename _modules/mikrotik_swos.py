@@ -9,6 +9,7 @@ def system_config(
     name='192.168.88.1',
     switch_login='admin',
     switch_password='',
+    allow_from_net4=None,
     allow_from_vlan=None,
     allow_from_port=None,
     watchdog=None,
@@ -30,6 +31,7 @@ def system_config(
         return ret;
 
     res = swos.set(
+        allow_from_net4=allow_from_net4,
         allow_from_vlan=allow_from_vlan,
         allow_from_port=allow_from_port,
         watchdog=watchdog,

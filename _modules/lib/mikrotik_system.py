@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 
+import ipaddress
+
 from lib import utils
 from lib.swostab import Swostab
 
@@ -17,7 +19,8 @@ class Mikrotik_System(Swostab):
     # todo: iptp,
     def set(self, **kwargs):
         if kwargs.get("allow_from_net4", None):
-            tokens = kwargs.get("allow_from_net4").split("/")
+            # mikrotik switch expect a valid network/mask combination => 10.31.0.0/15 is wrong
+            tokens = str(ipaddress.IPv4Network(kwargs.get("allow_from_net4"), strict=False)).split("/")
             self._update_data("alla", utils.encode_ipv4(tokens[0]))
             try:
                 self._update_data("allm", utils.hex_str_with_pad(int(tokens[1]), pad=2))
@@ -33,10 +36,12 @@ class Mikrotik_System(Swostab):
         self._update_data("dsc", utils.encode_checkbox(kwargs.get("mikrotik_discovery_protocol", None)))
         self._update_data("dtrp", utils.encode_listofflags(kwargs.get("dhcp_trusted_port", None), 8))
         self._update_data("ainf", utils.encode_checkbox(kwargs.get("dhcp_add_information_option", None)))
+        self._update_data("id", utils.encode_string(kwargs.get("identity", None)))
         return self._save(PAGE)
 
     def show(self):
         print("system tab")
+        print("* identify: {}" . format(utils.decode_string(self._data["id"])))
         print("* address acq: {}" . format(self._data["iptp"]))
         print("* address: {}" . format(utils.decode_ipv4(self._data["ip"])))
         print("* allow from: {}/{}" . format(utils.decode_ipv4(self._data["alla"], int(self._data["allm"]))))

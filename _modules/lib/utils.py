@@ -66,6 +66,9 @@ def encode_listofflags(flags, hex_len_str=0):
 
 # with pad=8 => 0xc26005 becomes 0x00c26005
 def hex_str_with_pad(s, pad=0):
+    if s is None:
+        return None
+
     if pad == 0:
         return hex(s)
     else:

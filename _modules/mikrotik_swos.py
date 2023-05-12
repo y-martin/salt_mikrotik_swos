@@ -130,10 +130,10 @@ def vlan_add(
 
 def ports_config(
     name,
+    ports_configuration
     switch_address='192.168.88.1',
     switch_login='admin',
     switch_password='',
-    ports_configuration
 ):
     from lib.mikrotik_vlans import Mikrotik_Vlans
     from lib.mikrotik_port import Mikrotik_Port

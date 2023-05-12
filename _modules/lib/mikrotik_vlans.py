@@ -21,10 +21,10 @@ class Mikrotik_Vlans(Swostab):
         return None
 
     def add(self, vlan_id, **kwargs):
-        vlan_config = self.get(int(vlan_id))
+        _vlan_config = self.get(int(vlan_id))
         if vlan_config is None:
-            vlan_config = {"vid": utils.hex_str_with_pad(int(vlan_id), pad=4)}
-            self._data.append(vlan_config)
+            _vlan_config = {"vid": utils.hex_str_with_pad(int(vlan_id), pad=4)}
+            self._data.append(_vlan_config)
 
         _vlan_config['nm'] = utils.encode_string(kwargs.get("name"))
         _vlan_config['piso'] = utils.encode_checkbox(kwargs.get("port_isolation", None))

@@ -25,7 +25,10 @@ class Swostab:
             self._data_changed = True
 
     def __init__(self, url, login, password):
-        self._url  = url
+        if 'http://' not in url:
+            self.url = "http://%s" % url
+        else:
+            self._url  = url
         self._auth = requests.auth.HTTPDigestAuth(login, password)
 
         resp = self._get("/link.b")

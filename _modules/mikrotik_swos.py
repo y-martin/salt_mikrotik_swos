@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/var/cache/salt/minion/extmods/modules/lib')
+sys.path.append('/var/cache/salt/minion/extmods/modules')
 
 __virtualname__ = 'mikrotik_swos'
 def __virtual__():

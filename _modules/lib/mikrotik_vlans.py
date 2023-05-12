@@ -32,7 +32,7 @@ class Mikrotik_Vlans(Swostab):
 
     def reset_member_cfg(self):
         for vlan in self._parsed_data:
-            self._parsed_data[v]["mbr"] = [0] * self.port_count
+            self._parsed_data[vlan]["mbr"] = [0] * self.port_count
 
     def add_port(self, vlan_id, port_id):
         if port_id <= 0 or port_id > self.port_count:

@@ -91,3 +91,14 @@ def encode_checkbox(s):
 # 0x01 => true
 def decode_checkbox(s):
     return s == "0x01"
+
+# [1, 3, 4] --> [1, 0, 1, 1]
+def ports_to_flag_list(ports, fill=0):
+    if not fill:
+        fill = max(ports) if len(ports) else 0
+
+    flag_list = [0] * fill
+    for i in ports:
+        flag_list[i-1] = 1
+
+    return flag_list

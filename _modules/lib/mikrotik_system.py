@@ -20,7 +20,7 @@ class Mikrotik_System(Swostab):
             tokens = kwargs.get("allow_from_net4").split("/")
             self._update_data("alla", utils.encode_ipv4(tokens[0]))
             try:
-                self._update_data("allm", utils.hex_str_with_pad(tokens[1], pad=2))
+                self._update_data("allm", utils.hex_str_with_pad(int(tokens[1]), pad=2))
             except IndexError:
                 self._update_data("allm", utils.hex_str_with_pad(32, pad=2))
         if kwargs.get("allow_from_vlan", None):

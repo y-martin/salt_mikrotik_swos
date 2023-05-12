@@ -102,3 +102,11 @@ def test_decode_checkbox():
 def test_encode_checkbox():
     assert(utils.encode_checkbox(True) == "0x01")
     assert(utils.encode_checkbox(False) == "0x00")
+
+
+# test_ports_to_flag_list
+def test_ports_to_flag_list():
+    assert(utils.ports_to_flag_list([]) == [])
+    assert(utils.ports_to_flag_list([], 2) == [0, 0])
+    assert(utils.ports_to_flag_list([4]) == [0, 0, 0, 1])
+    assert(utils.ports_to_flag_list([2], 4) == [0, 1, 0, 0])

@@ -19,8 +19,8 @@ class Mikrotik_Port(Swostab):
 
         self.parsed_data["enabled"] = utils.decode_listofflags(self._data["en"], self.port_count)
         self.parsed_data["duplex"]  = utils.decode_listofflags(self._data["dpxc"], self.port_count)
-        self.parsed_data["ctrl_tx"] = utils.decode_listofflags(self._data["fctc"], self.port_count)
-        self.parsed_data["ctrl_rx"] = utils.decode_listofflags(self._data["fctr"], self.port_count)
+        self.parsed_data["tx_flow_control"] = utils.decode_listofflags(self._data["fctc"], self.port_count)
+        self.parsed_data["rx_flow_control"] = utils.decode_listofflags(self._data["fctr"], self.port_count)
         self.parsed_data["autoneg"] = utils.decode_listofflags(self._data["an"], self.port_count)
         for i in range(0, self.port_count):
             self.parsed_data["name"].append(utils.decode_string(self._data["nm"][i]))
@@ -30,14 +30,14 @@ class Mikrotik_Port(Swostab):
         self.parsed_data["enabled"][port_id-1] = 1 if kwargs.get("enabled", 0) else 0
         self.parsed_data["autoneg"][port_id-1] = 1 if kwargs.get("autoneg", 1) else 0
         self.parsed_data["duplex"][port_id-1] = 1 if kwargs.get("duplex", 1) else 0
-        self.parsed_data["ctrl_tx"][port_id-1] = 1 if kwargs.get("ctrl_tx", 0) else 0
-        self.parsed_data["ctrl_rx"][port_id-1] = 1 if kwargs.get("ctrl_rx", 0) else 0
+        self.parsed_data["tx_flow_control"][port_id-1] = 1 if kwargs.get("tx_flow_control", 0) else 0
+        self.parsed_data["rx_flow_control"][port_id-1] = 1 if kwargs.get("rx_flow_control", 0) else 0
 
     def save(self):
         self._update_data("en", utils.encode_listofflags(self.parsed_data["enabled"], 8))
         self._update_data("dpxc", utils.encode_listofflags(self.parsed_data["duplex"], 8))
-        self._update_data("fctc", utils.encode_listofflags(self.parsed_data["ctrl_tx"], 8))
-        self._update_data("fctr", utils.encode_listofflags(self.parsed_data["ctrl_rx"], 8))
+        self._update_data("fctc", utils.encode_listofflags(self.parsed_data["tx_flow_control"], 8))
+        self._update_data("fctr", utils.encode_listofflags(self.parsed_data["rx_flow_control"], 8))
         self._update_data("an", utils.encode_listofflags(self.parsed_data["autoneg"], 8))
         for i in range(0, self.port_count):
             self._update_data("nm", utils.encode_string(self.parsed_data["name"][i]), i)
@@ -52,7 +52,7 @@ class Mikrotik_Port(Swostab):
                 self.parsed_data["enabled"][i],
                 self.parsed_data["autoneg"][i],
                 self.parsed_data["duplex"][i],
-                self.parsed_data["ctrl_tx"][i],
-                self.parsed_data["ctrl_rx"][i],
+                self.parsed_data["tx_flow_control"][i],
+                self.parsed_data["rx_flow_control"][i],
             ))
         print("")

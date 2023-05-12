@@ -154,6 +154,7 @@ def ports_config(
     for p in ports_configuration:
         swos_port.configure(
             port_id=p,
+            enabled=True
             **ports_configuration[p]
         )
 

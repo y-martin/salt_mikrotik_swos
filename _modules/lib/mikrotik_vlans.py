@@ -13,12 +13,20 @@ PAGE = "/vlan.b"
 class Mikrotik_Vlans(Swostab):
     def _load_tab_data(self):
         self._data = utils.mikrotik_to_json(self._get(PAGE).text)
+        for i in self._data:
+            self._parsed_data[int(i['vid'], 16)] = {
+                "nm": utils.decode_string(self._data[i]["nm"]),
+                "piso": utils.decode_checkbox(self._data[i]["piso"]),
+                "lrn": utils.decode_checkbox(self._data[i]["lrn"]),
+                "mrr": utils.decode_checkbox(self._data[i]["mrr"]),
+                "igmp": utils.decode_checkbox(self._data[i]["igmp"]),
+                "mbr": utils.decode_listoffflags(
+                    self._data[i]["mbr"], self.port_count
+                )
+            }
 
     def get(self, vlan_id):
-        for i in self._data:
-            if int(i['vid'], 16) == int(vlan_id):
-                return i
-        return None
+        return self._parsed_data.get(int(vlan_id), None)
 
     def add(self, vlan_id, **kwargs):
         _vlan_config = self.get(int(vlan_id))
@@ -30,36 +38,33 @@ class Mikrotik_Vlans(Swostab):
                 "lrn": True,
                 "mrr": False,
                 "igmp": False,
-                "mbr": utils.encode_listofflags([1] * self.port_count, 8)
+                "mbr": utils.encode_listofflags([0] * self.port_count, 8)
             }
-            self._data.append(_vlan_config)
+            self._parsed_data[int(vlan_id)] = _vlan_config
 
-        vlan_cfg = self._data.index(_vlan_config)
-        self._update_data(vlan_cfg, utils.encode_string(kwargs.get("name", None)), 'nm')
-        self._update_data(vlan_cfg, utils.encode_checkbox(kwargs.get("port_isolation", None)), 'piso')
-        self._update_data(vlan_cfg, utils.encode_checkbox(kwargs.get("learning", None)), 'lrn')
-        self._update_data(vlan_cfg, utils.encode_checkbox(kwargs.get("mirror", None)), 'mrr')
-        self._update_data(vlan_cfg, utils.encode_checkbox(kwargs.get("igmp_snooping", None)), 'igmp')
-        self._update_data(vlan_cfg, utils.encode_listofflags(kwargs.get("members", None), 8), 'mbr')
+        for k in _vlan_config:
+            _vlan_config[k] = kwargs.get(k, None)
+
 
     def remove(self, vlan_id):
-        for i in self._data:
-            if int(i['vid'], 16) == int(vlan_id):
-                self._data.remove(i)
-                self._data_changed = True
-                return True
+        if self._parsed_data.pop(vlan_id, None):
+            self._data_changed = True
+            return True
 
         return False
 
     def save(self):
+        for i in self._data:
+            vlan_id = int(i['vid'], 16)
+            self._update_data(i, utils.encode_string(self._parsed_data["vlan_id"]["nm"]), "nm")
+            self._update_data(i, utils.encode_listofflags(self._parsed_data["vlan_id"]["mbr"], 8), "mbr")
+            for k in ["piso", "lrn", "mrr", "igmp"]:
+                self._update_data(i, utils.encode_checkbox(self._parsed_data["vlan_id"][k]), k)
+
         return self._save(PAGE)
 
     def show(self):
         print("vlan tab")
-        for i in self._data:
-            print("* {} ({}) port list: {}".format(
-                int(i["vid"], 16),
-                utils.decode_string(i["nm"]),
-                utils.decode_listofflags(i["mbr"], self.port_count)
-            ))
+        for i in self._parsed_data:
+            print("* vlan: {} => {}".format(i, self._parsed_data[i]))
         print("")

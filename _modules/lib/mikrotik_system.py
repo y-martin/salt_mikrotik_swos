@@ -25,7 +25,7 @@ class Mikrotik_System(Swostab):
                 self._update_data("allm", utils.hex_str_with_pad(32, pad=2))
         if kwargs.get("allow_from_vlan", None):
             self._update_data("avln", utils.hex_str_with_pad(int(kwargs.get("allow_from_vlan")), 4))
-        self._update_data("allp", utils.encode_listofflags(kwargs.get("allow_from_ports", None), 8))
+        self._update_data("allp", utils.encode_listofflags(kwargs.get("allow_from_port", None), 8))
         self._update_data("wdt", utils.encode_checkbox(kwargs.get("watchdog", None)))
         self._update_data("ivl", utils.encode_checkbox(kwargs.get("independant_vlan_lookup", None)))
         self._update_data("igmp", utils.encode_checkbox(kwargs.get("igmp_snooping", None)))

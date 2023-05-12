@@ -16,9 +16,13 @@ class Mikrotik_System(Swostab):
 
     # todo: iptp,
     def set(self, **kwargs):
-        if kwargs.get("address", None):
-            self._update_data("ip", utils.encode_ipv4(kwargs.get("address", None)))
-            self._update_data("iptp", utils.encode_checkbox(True))
+        if kwargs.get("allow_from_net4", None):
+            tokens = kwargs.get("allow_from_net4").split("/")
+            self._update_data("alla", utils.encode_ipv4(tokens[0]))
+            try:
+                self._update_data("allm", utils.hex_str_with_pad(tokens[1], pad=2))
+            except IndexError:
+                self._update_data("allm", utils.hex_str_with_pad(32, pad=2))
         if kwargs.get("allow_from_vlan", None):
             self._update_data("avln", hex(kwargs.get("allow_from_vlan")))
         self._update_data("allp", utils.encode_listofflags(kwargs.get("allow_from_ports", None)))
@@ -35,6 +39,7 @@ class Mikrotik_System(Swostab):
         print("system tab")
         print("* address acq: {}" . format(self._data["iptp"]))
         print("* address: {}" . format(utils.decode_ipv4(self._data["ip"])))
+        print("* allow from: {}/{}" . format(utils.decode_ipv4(self._data["alla"], int(self._data["allm"]))))
         print("* allow from vlan {}" . format(int(self._data["avln"], 16)))
         print("* allow from ports {}" . format(utils.decode_listofflags(self._data["allp"], self.port_count)))
         print("* watchdog {}" . format(self._data["wdt"]))

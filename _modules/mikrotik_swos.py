@@ -88,6 +88,7 @@ def snmp_config(
 
 
 def vlan_add(
+    vlan_id,
     name='192.168.88.1',
     switch_login='admin',
     switch_password='',
@@ -109,6 +110,7 @@ def vlan_add(
         return ret;
 
     swos.add(
+        vlan_id=vlan_id,
         name=vlan_name,
         port_isolation=port_isolation,
         learning=learning,

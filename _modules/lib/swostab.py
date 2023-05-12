@@ -39,6 +39,7 @@ class Swostab:
         self.port_count = len(_link["nm"])
 
         self._load_tab_data()
+        self._data_changed = False
 
     def show(self):
         raise Exception("not implemented")

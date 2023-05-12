@@ -43,7 +43,7 @@ def system_config(
         dhcp_add_information_option=dhcp_add_information_option
     )
 
-    ret["result"] = true
+    ret["result"] = True
     if res:
         ret["changes"]["mikrotik_system"] = "config saved"
 

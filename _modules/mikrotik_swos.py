@@ -39,9 +39,9 @@ def system_config(
         watchdog=watchdog,
         independant_vlan_lookup=independant_vlan_lookup,
         igmp_snooping=igmp_snooping,
-        igmp_fast_leave=igmp_fast_leave,
+        igmp_fast_leave=utils.ports_to_flag_list(igmp_fast_leave, fill=swos.port_count),
         mikrotik_discovery_protocol=mikrotik_discovery_protocol,
-        dhcp_trusted_port=utils.ports_to_flag_list(dhcp_trusted_ports, fill=swos.port_count)
+        dhcp_trusted_port=utils.ports_to_flag_list(dhcp_trusted_ports, fill=swos.port_count),
         dhcp_add_information_option=dhcp_add_information_option
     )
 

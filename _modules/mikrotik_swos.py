@@ -104,12 +104,12 @@ def vlan_add(
     ret = {"name": name, "result": False, "changes": {}, "comment": ""}
 
     try:
-        swos = Mikrotik_Vlans(name, switch_login, switch_password)
+        swos_vlan = Mikrotik_Vlans(name, switch_login, switch_password)
     except AssertionError:
         ret["comment"] = "Fail to connect to %s" % (name)
         return ret;
 
-    swos.add(
+    swos_vlan.add(
         vlan_id=int(vlan_id),
         name=vlan_name,
         port_isolation=port_isolation,
@@ -118,7 +118,7 @@ def vlan_add(
         igmp_snooping=igmp_snooping,
         members=members
     )
-    res = swos.save()
+    res = swos_vlan.save()
 
     ret["result"] = True
     if res:

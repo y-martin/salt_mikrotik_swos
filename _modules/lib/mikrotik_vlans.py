@@ -23,7 +23,12 @@ class Mikrotik_Vlans(Swostab):
     def add(self, vlan_id, **kwargs):
         _vlan_config = self.get(int(vlan_id))
         if vlan_config is None:
-            _vlan_config = {"vid": utils.hex_str_with_pad(int(vlan_id), pad=4)}
+            _vlan_config = {
+                "vid": utils.hex_str_with_pad(int(vlan_id), pad=4),
+                "piso": True,
+                "lrn": True,
+                "mbr": utils.encode_listofflags([1] * self.port_count, 8)
+            }
             self._data.append(_vlan_config)
 
         _vlan_config['nm'] = utils.encode_string(kwargs.get("name"))

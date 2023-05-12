@@ -29,8 +29,16 @@ def snmp_config(
         **kwargs
     )
 
-    ret["result"] = true
-    if res:
-        ret["changes"]["mikrotik_snmp"] = "config saved"
 
-    return ret
+def vlan_add(
+    name='192.168.88.1',
+    switch_login='admin',
+    switch_password='',
+    **kwargs
+):
+    return __salt__["mikrotik_swos.vlan_add"](
+        name=name,
+        switch_login=switch_login,
+        switch_password=switch_password,
+        **kwargs
+    )

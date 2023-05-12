@@ -85,3 +85,41 @@ def snmp_config(
         ret["changes"]["mikrotik_snmp"] = "config saved"
 
     return ret
+
+
+def vlan_add(
+    name='192.168.88.1',
+    switch_login='admin',
+    switch_password='',
+    vlan_name=None,
+    port_isolation=None,
+    learning=None,
+    mirror=None,
+    igmp_snooping=None,
+    members=None
+):
+    from lib.mikrotik_vlans import Mikrotik_Vlans
+
+    ret = {"name": name, "result": False, "changes": {}, "comment": ""}
+
+    try:
+        swos = Mikrotik_Vlans(name, switch_login, switch_password)
+    except AssertionError:
+        ret["comment"] = "Fail to connect to %s" % (name)
+        return ret;
+
+    swos.add(
+        name=vlan_name,
+        port_isolation=port_isolation,
+        learning=learning,
+        mirror=mirror,
+        igmp_snooping=igmp_snooping,
+        members=members
+    )
+    res = swos.save()
+
+    ret["result"] = True
+    if res:
+        ret["changes"]["mikrotik_vlans"] = "config saved"
+
+    return ret

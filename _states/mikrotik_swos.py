@@ -40,7 +40,7 @@ def snmp_config(
     switch_password='',
     enable=None,
     community=None,
-    contact_info=None
+    contact_info=None,
     location=None
 ):
     return __salt__["mikrotik_swos.snmp_config"](
@@ -58,17 +58,3 @@ def snmp_config(
         ret["changes"]["mikrotik_snmp"] = "config saved"
 
     return ret
-
-
-def rstp_config(
-    name='192.168.88.1',
-    switch_login='admin',
-    switch_password='',
-    rstp_enabled=None,
-):
-    return __salt__["mikrotik_swos.snmp_config"](
-        name=name,
-        switch_login=switch_login,
-        switch_password=switch_password,
-        rstp_enabled=rstp_enabled
-    )

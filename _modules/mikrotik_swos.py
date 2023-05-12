@@ -53,7 +53,7 @@ def snmp_config(
     switch_password='',
     enable=None,
     community=None,
-    contact_info=None
+    contact_info=None,
     location=None
 ):
     from lib.mikrotik_snmp import Mikrotik_Snmp
@@ -76,32 +76,5 @@ def snmp_config(
     ret["result"] = true
     if res:
         ret["changes"]["mikrotik_snmp"] = "config saved"
-
-    return ret
-
-
-def rstp_config(
-    name='192.168.88.1',
-    switch_login='admin',
-    switch_password='',
-    rstp_enabled=None,
-):
-    from lib.mikrotik_rstp import Mikrotik_Rstp
-
-    ret = {"name": name, "result": False, "changes": {}, "comment": ""}
-
-    try:
-        swos = Mikrotik_Rstp(name, switch_login, switch_password)
-    except AssertError:
-        ret["comment"] = "Fail to connect to %s" % (name)
-        return ret;
-
-    res = swos.set(
-        rstp_enabled=rstp_enabled
-    )
-
-    ret["result"] = true
-    if res:
-        ret["changes"]["mikrotik_rstp"] = "config saved"
 
     return ret

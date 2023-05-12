@@ -26,7 +26,7 @@ def system_config(
 
     try:
         swos = Mikrotik_System(name, switch_login, switch_password)
-    except AssertError:
+    except AssertionError:
         ret["comment"] = "Fail to connect to %s" % (name)
         return ret;
 
@@ -65,7 +65,7 @@ def snmp_config(
 
     try:
         swos = Mikrotik_Snmp(name, switch_login, switch_password)
-    except AssertError:
+    except AssertionError:
         ret["comment"] = "Fail to connect to %s" % (name)
         return ret;
 

@@ -19,7 +19,8 @@ def system_config(
     igmp_fast_leave=None,
     mikrotik_discovery_protocol=None,
     dhcp_trusted_ports=None,
-    dhcp_add_information_option=None
+    dhcp_add_information_option=None,
+    identity=None
 ):
     from lib.mikrotik_system import Mikrotik_System
     from lib import utils
@@ -42,7 +43,8 @@ def system_config(
         igmp_fast_leave=utils.ports_to_flag_list(igmp_fast_leave, fill=swos.port_count),
         mikrotik_discovery_protocol=mikrotik_discovery_protocol,
         dhcp_trusted_port=utils.ports_to_flag_list(dhcp_trusted_ports, fill=swos.port_count),
-        dhcp_add_information_option=dhcp_add_information_option
+        dhcp_add_information_option=dhcp_add_information_option,
+        identity=identity
     )
 
     ret["result"] = True

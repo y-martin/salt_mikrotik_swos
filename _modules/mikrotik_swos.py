@@ -126,3 +126,57 @@ def vlan_add(
         ret["changes"]["mikrotik_vlans"] = "config saved"
 
     return ret
+
+
+def ports_config(
+    name,
+    switch_address='192.168.88.1',
+    switch_login='admin',
+    switch_password='',
+    ports_configuration
+):
+    from lib.mikrotik_vlans import Mikrotik_Vlans
+    from lib.mikrotik_port import Mikrotik_Port
+    from lib.mikrotik_port_isolation import Mikrotik_Forwarding
+    from lib.mikrotik_lacp import Mikrotik_Lacp
+
+    ret = {"name": name, "result": False, "changes": {}, "comment": ""}
+
+    try:
+        swos_lacp = Mikrotik_Lacp(switch_address, switch_login, switch_password)
+        swos_port = Mikrotik_Port(switch_address, switch_login, switch_password)
+        swos_port_iso = Mikrotik_Forwarding(switch_address, switch_login, switch_password)
+        swos_vlan = Mikrotik_Vlans(switch_address, switch_login, switch_password)
+    except AssertionError:
+        ret["comment"] = "Fail to connect to %s" % (switch_address)
+        return ret;
+
+    for p in ports_configuration:
+        swos_port.configure(port_id=p, **ports_configuration)
+
+        swos_port_iso.port_isolation(port_id=p, port_list=ports_configuration[p]["xfer_allow_ports"])
+
+        swos_port_iso.port_vlan_config(
+            port_id=p,
+            mode=ports_configuration[p].get("vlan_mode", None),
+            receive_mode=ports_configuration[p].get("receive_mode", None),
+            default_vlan_id=ports_configuration[p].get("vlan_default_id", None),
+            force_vlan_id=ports_configuration[p].get("vlan_force_id", None)
+        )
+
+        vlans = ports_configuration[p].get("vlan_ids", [])
+        if "vlan_default_id" in ports_configuration[p]:
+            vlans += [ports_configuration[p]["vlan_default_id"]]
+        for vlan in vlans:
+            swos_vlan.add_port(port_id=p, vlan_id=vlan)
+
+    res_lacp = swos_lacp.save()
+    res_port = swos_port.save()
+    res_port_iso = swos_port_iso.save()
+    res_vlan = swos_vlan.save()
+
+    ret["result"] = res_lacp|res_port|res_port_iso|res_vlan
+    if res:
+        ret["changes"]["mikrotik_ports"] = "config saved"
+
+    return ret

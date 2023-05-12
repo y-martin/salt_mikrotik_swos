@@ -30,13 +30,9 @@ class Mikrotik_Vlans(Swostab):
     def get(self, vlan_id):
         return self._parsed_data.get(vlan_id, None)
 
-    def clear_members(self, vlan_id):
-        _vlan_config = self.get(vlan_id)
-        if _vlan_config is None:
-            return False
-
-        _vlan_config["mbr"] = [0] * self.port_count
-        return True
+    def reset_member_cfg(self):
+        for vlan in self._parsed_data:
+            self._parsed_data[v]["mbr"] = [0] * self.port_count
 
     def add_port(self, vlan_id, port_id):
         if port_id <= 0 or port_id > self.port_count:
@@ -54,7 +50,7 @@ class Mikrotik_Vlans(Swostab):
         if _vlan_config is None:
             _vlan_config = {
                 "vid": utils.hex_str_with_pad(vlan_id, pad=4),
-                "nm": "",
+                "nm": str(vlan_id),
                 "piso": True,
                 "lrn": True,
                 "mrr": False,

@@ -51,19 +51,19 @@ class Mikrotik_Forwarding(Swostab):
         if port_id < 1 or port_id > self.port_count:
             return False
 
-        if mode:
+        if mode is not None:
             _mode = VLAN_MODE[mode]
             self._update_data("vlan", _mode, port_id-1)
 
-        if receive_mode:
+        if receive_mode is not None:
             _mode = VLAN_RECEIVE_MODE[receive_mode]
             self._update_data("vlni", _mode, port_id-1)
 
-        if default_vlan_id:
-            _dvid_val = utils.hex_str_with_pad(hex(default_vlan_id), 4)
+        if default_vlan_id is not None:
+            _dvid_val = utils.hex_str_with_pad(hex(int(default_vlan_id)), 4)
             self._update_data("dvid", _dvid_val, port_id-1)
 
-        if force_vlan_id:
+        if force_vlan_id is not None:
             _fvid = utils.decode_listofflags(self._data["fvid"], self.port_count)
             if force_vlan_id:
                 _fvid[port_id-1] = 1

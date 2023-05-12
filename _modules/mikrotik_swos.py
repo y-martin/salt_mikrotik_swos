@@ -22,8 +22,8 @@ def system_config(
     dhcp_add_information_option=None,
     identity=None
 ):
-    from lib.mikrotik_system import Mikrotik_System
-    from lib import utils
+    from mikrotik_swos.mikrotik_system import Mikrotik_System
+    from mikrotik_swos import utils
 
     ret = {"name": name, "result": False, "changes": {}, "comment": ""}
 
@@ -63,7 +63,7 @@ def snmp_config(
     contact_info=None,
     location=None
 ):
-    from lib.mikrotik_snmp import Mikrotik_Snmp
+    from mikrotik_swos.mikrotik_snmp import Mikrotik_Snmp
 
     ret = {"name": name, "result": False, "changes": {}, "comment": ""}
 
@@ -100,7 +100,7 @@ def vlan_add(
     igmp_snooping=None,
     members=None
 ):
-    from lib.mikrotik_vlans import Mikrotik_Vlans
+    from mikrotik_swos.mikrotik_vlans import Mikrotik_Vlans
 
     ret = {"name": name, "result": False, "changes": {}, "comment": ""}
 
@@ -135,10 +135,10 @@ def ports_config(
     switch_login='admin',
     switch_password=''
 ):
-    from lib.mikrotik_vlans import Mikrotik_Vlans
-    from lib.mikrotik_port import Mikrotik_Port
-    from lib.mikrotik_port_isolation import Mikrotik_Forwarding
-    from lib.mikrotik_lacp import Mikrotik_Lacp
+    from mikrotik_swos.mikrotik_vlans import Mikrotik_Vlans
+    from mikrotik_swos.mikrotik_port import Mikrotik_Port
+    from mikrotik_swos.mikrotik_port_isolation import Mikrotik_Forwarding
+    from mikrotik_swos.mikrotik_lacp import Mikrotik_Lacp
 
     ret = {"name": name, "result": False, "changes": {}, "comment": ""}
 

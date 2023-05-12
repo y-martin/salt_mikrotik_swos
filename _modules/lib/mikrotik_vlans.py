@@ -15,24 +15,43 @@ class Mikrotik_Vlans(Swostab):
         self._data = utils.mikrotik_to_json(self._get(PAGE).text)
         for i in self._data:
             self._parsed_data[int(i['vid'], 16)] = {
-                "nm": utils.decode_string(self._data[i]["nm"]),
-                "piso": utils.decode_checkbox(self._data[i]["piso"]),
-                "lrn": utils.decode_checkbox(self._data[i]["lrn"]),
-                "mrr": utils.decode_checkbox(self._data[i]["mrr"]),
-                "igmp": utils.decode_checkbox(self._data[i]["igmp"]),
-                "mbr": utils.decode_listoffflags(
-                    self._data[i]["mbr"], self.port_count
+                "nm": utils.decode_string(i["nm"]),
+                "piso": utils.decode_checkbox(i["piso"]),
+                "lrn": utils.decode_checkbox(i["lrn"]),
+                "mrr": utils.decode_checkbox(i["mrr"]),
+                "igmp": utils.decode_checkbox(i["igmp"]),
+                "mbr": utils.decode_listofflags(
+                    i["mbr"], self.port_count
                 )
             }
 
     def get(self, vlan_id):
-        return self._parsed_data.get(int(vlan_id), None)
+        return self._parsed_data.get(vlan_id, None)
+
+    def clear_members(self, vlan_id):
+        _vlan_config = self.get(vlan_id)
+        if _vlan_config is None:
+            return False
+
+        _vlan_config["mbr"] = [0] * self.port_count
+        return True
+
+    def add_port(self, vlan_id, port_id):
+        if port_id <= 0 or port_id > self.port_count:
+            return False
+
+        _vlan_config = self.get(vlan_id)
+        if _vlan_config is None:
+            return False
+
+        _vlan_config["mbr"][port_id-1] = 1
+        return True
 
     def add(self, vlan_id, **kwargs):
-        _vlan_config = self.get(int(vlan_id))
+        _vlan_config = self.get(vlan_id)
         if _vlan_config is None:
             _vlan_config = {
-                "vid": utils.hex_str_with_pad(int(vlan_id), pad=4),
+                "vid": utils.hex_str_with_pad(vlan_id, pad=4),
                 "nm": "",
                 "piso": True,
                 "lrn": True,
@@ -40,7 +59,7 @@ class Mikrotik_Vlans(Swostab):
                 "igmp": False,
                 "mbr": utils.encode_listofflags([0] * self.port_count, 8)
             }
-            self._parsed_data[int(vlan_id)] = _vlan_config
+            self._parsed_data[vlan_id] = _vlan_config
 
         for k in _vlan_config:
             _vlan_config[k] = kwargs.get(k, None)
@@ -54,12 +73,14 @@ class Mikrotik_Vlans(Swostab):
         return False
 
     def save(self):
-        for i in self._data:
+        i = 0
+        while i < len(self._data):
             vlan_id = int(i['vid'], 16)
             self._update_data(i, utils.encode_string(self._parsed_data["vlan_id"]["nm"]), "nm")
             self._update_data(i, utils.encode_listofflags(self._parsed_data["vlan_id"]["mbr"], 8), "mbr")
             for k in ["piso", "lrn", "mrr", "igmp"]:
                 self._update_data(i, utils.encode_checkbox(self._parsed_data["vlan_id"][k]), k)
+            i += 1
 
         return self._save(PAGE)
 

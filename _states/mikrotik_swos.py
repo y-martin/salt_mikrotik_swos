@@ -31,13 +31,15 @@ def snmp_config(
 
 
 def vlan_add(
-    name='192.168.88.1',
+    name,
+    switch_address='192.168.88.1',
     switch_login='admin',
     switch_password='',
     **kwargs
 ):
     return __salt__["mikrotik_swos.vlan_add"](
-        name=name,
+        vlan_id=name,
+        switch_address=switch_address,
         switch_login=switch_login,
         switch_password=switch_password,
         **kwargs

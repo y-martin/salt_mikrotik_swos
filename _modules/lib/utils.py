@@ -75,7 +75,7 @@ def encode_ipv4(s):
     if s == "":
         return "0x00000000"
 
-    return hex(struct.unpack("I", socket.inet_aton(s))[0])
+    return hex_str_with_pad(struct.unpack("I", socket.inet_aton(s))[0], 8)
 
 # 0xfa001f0a => 10.31.0.250
 def decode_ipv4(s):

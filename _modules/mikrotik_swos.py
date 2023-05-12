@@ -76,7 +76,7 @@ def snmp_config(
         location=location
     )
 
-    ret["result"] = true
+    ret["result"] = True
     if res:
         ret["changes"]["mikrotik_snmp"] = "config saved"
 

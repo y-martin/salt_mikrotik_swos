@@ -25,9 +25,10 @@ def decode_string(s):
 
 # SFP1 -> 53465031
 def encode_string(s):
-    if not s:
-        s = ""
-    return s.encode("ascii").hex()
+    if isinstance(s, str):
+        return s.encode("ascii").hex()
+
+    return None
 
 # 0x1c20005 -> [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0]
 def decode_listofflags(s, zfill=0):
@@ -52,7 +53,7 @@ def decode_listofflags(s, zfill=0):
 # with hex_len_str=8 => 0xc26005 becomes 0x00c26005
 def encode_listofflags(flags, hex_len_str=0):
     if flags is None or len(flags) == 0:
-        return hex_str_with_pad(0, hex_len_str)
+        return None
 
     # list need to be reversed
     flags_str = ""
@@ -72,10 +73,10 @@ def hex_str_with_pad(s, pad=0):
 
 # 10.31.0.250 => 0xfa001f0a
 def encode_ipv4(s):
-    if s == "":
-        return "0x00000000"
+    if isinstance(s, str):
+        return hex_str_with_pad(struct.unpack("I", socket.inet_aton(s))[0], 8)
 
-    return hex_str_with_pad(struct.unpack("I", socket.inet_aton(s))[0], 8)
+    return None
 
 # 0xfa001f0a => 10.31.0.250
 def decode_ipv4(s):

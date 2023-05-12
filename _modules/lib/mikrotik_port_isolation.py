@@ -43,7 +43,7 @@ class Mikrotik_Forwarding(Swostab):
         else:
             acl = [0] * self.port_count
             for p in port_list:
-                if p < self.port_count:
+                if p <= self.port_count:
                     acl[p-1] = 1
 
         acl[port_id-1] = 0

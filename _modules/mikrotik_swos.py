@@ -1,9 +1,9 @@
-# tofix
-import sys
-sys.path.append('/var/cache/salt/minion/extmods/modules')
-
 __virtualname__ = 'mikrotik_swos'
 def __virtual__():
+    try:
+        from mikrotik_swos.mikrotik_system import Mikrotik_System
+    except ImportError:
+        return False, "Install python3-mikrotik-swos"
     return __virtualname__
 
 def system_config(

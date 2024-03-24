@@ -217,9 +217,10 @@ def ports_config(
     res_port = swos_port.save()
     res_port_iso = swos_port_iso.save()
     res_vlan = swos_vlan.save()
+    res_rstp = swos_port_rstp.save()
 
     ret["result"] = True
-    if res_lacp|res_port|res_port_iso|res_vlan:
+    if res_lacp|res_port|res_port_iso|res_vlan|res_rstp:
         ret["changes"]["mikrotik_ports"] = "config saved"
 
     return ret

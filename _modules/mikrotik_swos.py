@@ -152,6 +152,7 @@ def ports_config(
     from mikrotik_swos.mikrotik_port import Mikrotik_Port
     from mikrotik_swos.mikrotik_port_isolation import Mikrotik_Forwarding
     from mikrotik_swos.mikrotik_lacp import Mikrotik_Lacp
+    from mikrotik_swos.mikrotik_rstp import Mikrotik_Rstp
 
     ret = {"name": name, "result": False, "changes": {}, "comment": ""}
 

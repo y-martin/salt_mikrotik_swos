@@ -161,6 +161,11 @@ def ports_config(
                 **ports_configuration[p]
             )
 
+            swos_lacp.port_lacp_mode(
+                p,
+                ports_configuration[p].get("lag_mode", "passive")
+            )
+
             swos_port_iso.port_isolation(
                 port_id=p,
                 port_list=ports_configuration[p].get("xfer_allow_ports", None)

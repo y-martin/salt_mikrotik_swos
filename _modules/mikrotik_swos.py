@@ -159,6 +159,7 @@ def ports_config(
         swos_lacp = Mikrotik_Lacp(switch_address, switch_login, switch_password)
         swos_port = Mikrotik_Port(switch_address, switch_login, switch_password)
         swos_port_iso = Mikrotik_Forwarding(switch_address, switch_login, switch_password)
+        swos_port_rstp = Mikrotik_Rstp(switch_address, switch_login, switch_password)
         swos_vlan = Mikrotik_Vlans(switch_address, switch_login, switch_password)
     except AssertionError:
         ret["comment"] = "Fail to connect to %s" % (switch_address)
@@ -191,6 +192,11 @@ def ports_config(
                 receive_mode=ports_configuration[p].get("vlan_receive_mode", None),
                 default_vlan_id=ports_configuration[p].get("vlan_default_id", None),
                 force_vlan_id=ports_configuration[p].get("vlan_force_id", None)
+            )
+
+            swos_port_rstp.on_port(
+                port_id=p,
+                rstp_mode=ports_configuration[p].get("rstp", True)
             )
 
             vlans = ports_configuration[p].get("vlan_ids", [])

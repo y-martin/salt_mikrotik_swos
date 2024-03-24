@@ -135,6 +135,19 @@ def ports_config(
     switch_login='admin',
     switch_password=''
 ):
+    """
+    ports_configuration =>
+    1:
+      name: xxx
+      xfer_allow_ports: [2, 24, 26]
+      lag_mode: passive
+      lag_static_group: 1
+      rstp: true
+      vlan_mode: strict
+      vlan_receive_mode: "only untagged"
+      vlan_default_id: 1100
+      vlan_force_id: true
+    """
     from mikrotik_swos.mikrotik_vlans import Mikrotik_Vlans
     from mikrotik_swos.mikrotik_port import Mikrotik_Port
     from mikrotik_swos.mikrotik_port_isolation import Mikrotik_Forwarding
@@ -163,7 +176,8 @@ def ports_config(
 
             swos_lacp.port_lacp_mode(
                 p,
-                ports_configuration[p].get("lag_mode", "passive")
+                ports_configuration[p].get("lag_mode", "passive"),
+                ports_configuration[p].get("lag_static_group", None)
             )
 
             swos_port_iso.port_isolation(

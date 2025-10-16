@@ -59,9 +59,9 @@ def snmp_config(
     switch_login='admin',
     switch_password='',
     enable=None,
-    community='',
-    contact_info=None,
-    location=None
+    community='public',
+    contact_info='',
+    location=''
 ):
     from mikrotik_swos.mikrotik_snmp import Mikrotik_Snmp
 

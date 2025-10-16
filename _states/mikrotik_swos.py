@@ -36,7 +36,7 @@ def vlans_config(
     switch_password='',
     **kwargs
 ):
-    return __salt__["mikrotik_swos.vlan_add"](
+    return __salt__["mikrotik_swos.vlans_config"](
         name=name,
         switch_login=switch_login,
         switch_password=switch_password,

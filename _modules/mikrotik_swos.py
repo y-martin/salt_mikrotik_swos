@@ -110,9 +110,9 @@ def vlans_config(
             vlan_id=int(vlan_id),
             name=vlans_configuration[vlan_id].get('vlan_name'),
             port_isolation=vlans_configuration[vlan_id].get('port_isolation'),
-            learning=vlans_configuration[vlan_id].get('learning')
-            mirror=vlans_configuration[vlan_id].get('mirror')
-            igmp_snooping=vlans_configuration[vlan_id].get('igmp_snooping')
+            learning=vlans_configuration[vlan_id].get('learning'),
+            mirror=vlans_configuration[vlan_id].get('mirror'),
+            igmp_snooping=vlans_configuration[vlan_id].get('igmp_snooping'),
             members=vlans_configuration[vlan_id].get('members')
         )
         curr_vlan_ids.remove(vlan_id)

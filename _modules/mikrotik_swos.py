@@ -115,7 +115,8 @@ def vlans_config(
             igmp_snooping=vlans_configuration[vlan_id].get('igmp_snooping'),
             members=vlans_configuration[vlan_id].get('members')
         )
-        curr_vlan_ids.remove(vlan_id)
+        if vlan_id in curr_vlan_ids:
+            curr_vlan_ids.remove(vlan_id)
 
     for vlan_id in curr_vlan_ids:
         swos_vlan.remove(vlan_id)

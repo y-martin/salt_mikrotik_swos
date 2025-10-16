@@ -59,7 +59,7 @@ def snmp_config(
     switch_login='admin',
     switch_password='',
     enable=None,
-    community=None,
+    community='',
     contact_info=None,
     location=None
 ):

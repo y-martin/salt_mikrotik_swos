@@ -87,38 +87,39 @@ def snmp_config(
     return ret
 
 
-def vlan_add(
+def vlans_config(
     name,
-    vlan_id,
-    switch_address='192.168.88.1',
+    vlans_configuration,
     switch_login='admin',
-    switch_password='',
-    vlan_name=None,
-    port_isolation=None,
-    learning=None,
-    mirror=None,
-    igmp_snooping=None,
-    members=None
+    switch_password=''
 ):
     from mikrotik_swos.mikrotik_vlans import Mikrotik_Vlans
 
     ret = {"name": name, "result": False, "changes": {}, "comment": ""}
 
     try:
-        swos_vlan = Mikrotik_Vlans(switch_address, switch_login, switch_password)
+        swos_vlan = Mikrotik_Vlans(name, switch_login, switch_password)
     except AssertionError:
         ret["comment"] = "Fail to connect to %s" % (switch_address)
         return ret;
 
-    swos_vlan.add(
-        vlan_id=int(vlan_id),
-        name=vlan_name,
-        port_isolation=port_isolation,
-        learning=learning,
-        mirror=mirror,
-        igmp_snooping=igmp_snooping,
-        members=members
-    )
+    curr_vlan_ids = swos_vlan.get_vlans()
+
+    for vlan_id in vlans_configuration:
+        swos_vlan.add(
+            vlan_id=int(vlan_id),
+            name=vlans_configuration[vlan_id].get('vlan_name'),
+            port_isolation=vlans_configuration[vlan_id].get('port_isolation'),
+            learning=vlans_configuration[vlan_id].get('learning')
+            mirror=vlans_configuration[vlan_id].get('mirror')
+            igmp_snooping=vlans_configuration[vlan_id].get('igmp_snooping')
+            members=vlans_configuration[vlan_id].get('members')
+        )
+        curr_vlan_ids.remove(vlan_id)
+
+    for vlan_id in curr_vlan_ids:
+        swos_vlan.remove(vlan_id)
+            
     res = swos_vlan.save()
 
     ret["result"] = True
